@@ -1,0 +1,24 @@
+{
+  "entities": {
+    "inquiries": {
+      "title": "Customer Inquiries",
+      "description": "Messages and requests submitted from prospective clients through the contact modal",
+      "type": "collection",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "service": { "type": "string" },
+          "budget": { "type": "string" },
+          "message": { "type": "string" },
+          "projectTitle": { "type": "string" },
+          "projectCode": { "type": "number" },
+          "createdAt": { "type": "string" },
+          "status": { "type": "string" }
+        },
+        "required": ["name", "email", "message"]
+      }
+    }
+  }
+}
