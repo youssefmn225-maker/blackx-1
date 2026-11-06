@@ -57,7 +57,7 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen w-full text-slate-100 overflow-x-hidden flex flex-col justify-between selection:bg-purple-500/40 selection:text-white">
-      <div style={{ position: 'fixed', inset: 0, zIndex: -1, backgroundColor: '#020005' }}>
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0, backgroundColor: '#020005' }}>
         <Ferrofluid
           colors={["#dff1ff","#ac36f4","#8fb0ff"]}
           spikeHeight={1}
