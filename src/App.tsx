@@ -10,19 +10,26 @@ import { ProjectGrid } from './components/ProjectGrid';
 import { ExpandedShardModal } from './components/ExpandedShardModal';
 import { ContactModal } from './components/ContactModal';
 import { AboutStudioModal } from './components/AboutStudioModal';
+import { PasswordPromptModal } from './backend/PasswordPromptModal';
+import { BackendAdminModal } from './backend/BackendAdminModal';
+import { getStoredProjects } from './backend/projectStorage';
 import {
   CinematicShatterTransition,
   TransitionOriginData,
 } from './components/CinematicShatterTransition';
-import { PROJECTS_DATA } from './data/projects';
 import { ProjectShard } from './types';
 
 export default function App() {
+  const [projects, setProjects] = useState<ProjectShard[]>(getStoredProjects());
   const [selectedProject, setSelectedProject] = useState<ProjectShard | null>(null);
   const [transitionData, setTransitionData] = useState<TransitionOriginData | null>(null);
   const [contactOpen, setContactOpen] = useState<boolean>(false);
   const [aboutOpen, setAboutOpen] = useState<boolean>(false);
   const [contactProjectTitle, setContactProjectTitle] = useState<string | undefined>(undefined);
+
+  // Admin Backend Modals States
+  const [passwordModalOpen, setPasswordModalOpen] = useState<boolean>(false);
+  const [adminModalOpen, setAdminModalOpen] = useState<boolean>(false);
 
   const handleOpenContact = (projectTitle?: string) => {
     setContactProjectTitle(projectTitle);
@@ -51,8 +58,12 @@ export default function App() {
     }
   };
 
-  const handleTransitionComplete = (project: ProjectShard) => {
+  const handleTransitionComplete = (_project: ProjectShard) => {
     setTransitionData(null);
+  };
+
+  const handleRefreshProjects = () => {
+    setProjects(getStoredProjects());
   };
 
   return (
@@ -78,7 +89,10 @@ export default function App() {
           Deep black textured plaque with iridescent crystal logo
         */}
         <div className="w-full pointer-events-auto">
-          <StudioHeader onOpenAbout={() => setAboutOpen(true)} />
+          <StudioHeader
+            onOpenAbout={() => setAboutOpen(true)}
+            onAdminTrigger={() => setPasswordModalOpen(true)}
+          />
         </div>
 
         {/* 
@@ -87,7 +101,7 @@ export default function App() {
         */}
         <main className="w-full flex items-center justify-center flex-1 my-auto py-2 sm:py-4 pointer-events-auto">
           <ProjectGrid
-            projects={PROJECTS_DATA}
+            projects={projects}
             onSelectProject={handleSelectProject}
             onOpenContact={() => setAboutOpen(true)}
           />
@@ -125,6 +139,23 @@ export default function App() {
         isOpen={contactOpen}
         onClose={() => setContactOpen(false)}
         defaultProjectTitle={contactProjectTitle}
+      />
+
+      {/* Password Prompt Modal for Backend Access */}
+      <PasswordPromptModal
+        isOpen={passwordModalOpen}
+        onClose={() => setPasswordModalOpen(false)}
+        onSuccess={() => {
+          setPasswordModalOpen(false);
+          setAdminModalOpen(true);
+        }}
+      />
+
+      {/* Admin Backend Dashboard Modal */}
+      <BackendAdminModal
+        isOpen={adminModalOpen}
+        onClose={() => setAdminModalOpen(false)}
+        onProjectsUpdated={handleRefreshProjects}
       />
     </div>
   );
