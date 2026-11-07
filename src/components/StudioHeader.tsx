@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
+import ElectricLogo from './ElectricLogo';
 
 interface StudioHeaderProps {
   onOpenAbout: () => void;
@@ -32,55 +33,27 @@ export const StudioHeader: React.FC<StudioHeaderProps> = ({ onOpenAbout }) => {
           }`}
         />
 
-        {/* Iridescent Crystal Glass Logo (No enclosing rectangle) */}
-        <div className="relative w-11 h-11 sm:w-13 sm:h-13 flex-shrink-0 flex items-center justify-center">
-          <svg
-            className="w-full h-full drop-shadow-[0_0_15px_rgba(192,132,252,0.9)] transition-transform duration-500 group-hover:rotate-12 group-hover:scale-105"
-            viewBox="0 0 100 100"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <linearGradient id="iridescentGlass" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.98" />
-                <stop offset="35%" stopColor="#d8b4fe" stopOpacity="0.9" />
-                <stop offset="70%" stopColor="#a855f7" stopOpacity="0.85" />
-                <stop offset="100%" stopColor="#6b21a8" stopOpacity="0.95" />
-              </linearGradient>
-
-              <linearGradient id="glassFacetLight" x1="100%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#f3e8ff" stopOpacity="0.85" />
-                <stop offset="50%" stopColor="#c084fc" stopOpacity="0.35" />
-                <stop offset="100%" stopColor="#2e0854" stopOpacity="0.7" />
-              </linearGradient>
-            </defs>
-
-            {/* Inlaid Hexagonal Crystal Facets */}
-            <polygon
-              points="50,6 92,28 92,72 50,94 8,72 8,28"
-              fill="url(#glassFacetLight)"
-              stroke="#d8b4fe"
-              strokeWidth="2.2"
-              strokeLinejoin="round"
-            />
-
-            {/* Polished internal refractions */}
-            <line x1="50" y1="6" x2="50" y2="50" stroke="#ffffff" strokeWidth="1.4" strokeOpacity="0.9" />
-            <line x1="92" y1="28" x2="50" y2="50" stroke="#f3e8ff" strokeWidth="1.4" strokeOpacity="0.8" />
-            <line x1="92" y1="72" x2="50" y2="50" stroke="#c084fc" strokeWidth="1.4" strokeOpacity="0.7" />
-            <line x1="50" y1="94" x2="50" y2="50" stroke="#a855f7" strokeWidth="1.4" strokeOpacity="0.7" />
-            <line x1="8" y1="72" x2="50" y2="50" stroke="#c084fc" strokeWidth="1.4" strokeOpacity="0.7" />
-            <line x1="8" y1="28" x2="50" y2="50" stroke="#f3e8ff" strokeWidth="1.4" strokeOpacity="0.8" />
-
-            {/* Glowing Core Crystal */}
-            <polygon
-              points="50,26 74,38 74,62 50,74 26,62 26,38"
-              fill="url(#iridescentGlass)"
-              stroke="#ffffff"
-              strokeWidth="1.8"
-            />
-            <circle cx="50" cy="50" r="4.5" fill="#ffffff" filter="drop-shadow(0 0 8px #ffffff)" />
-          </svg>
+        {/* ElectricLogo Animation */}
+        <div className="relative w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 flex items-center justify-center">
+          <ElectricLogo
+            src="/logo.svg"
+            color="#2357ad"
+            glowColor="#0a234d"
+            scale={0.7}
+            strands={3}
+            bend={0.6}
+            crackle={1.5}
+            arcs={1}
+            speed={2.5}
+            interactive
+            intensity={1.15}
+            glow={1.1}
+            thickness={1.5}
+            flicker={0.6}
+            fill={0}
+            cursorIntensity={0.75}
+            cursorRadius={100}
+          />
         </div>
 
         {/* Brand Name Typography: Pure, minimalist BLACK-X */}
