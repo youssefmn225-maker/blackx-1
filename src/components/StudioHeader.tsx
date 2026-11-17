@@ -51,7 +51,6 @@ export const StudioHeader: React.FC<StudioHeaderProps> = ({ onOpenAbout, onAdmin
         <motion.button
           type="button"
           id="brand-header-trigger"
-          onClick={onOpenAbout}
           onMouseDown={startHolding}
           onMouseUp={stopHolding}
           onMouseLeave={stopHolding}
