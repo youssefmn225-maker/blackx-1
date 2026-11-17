@@ -5,16 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import ElectricLogo from './ElectricLogo';
 
-const NAV_ITEMS = ['Products', 'About', 'Blog'];
-
 interface GlassNavbarProps {
   onOpenAbout?: () => void;
   onAdminTrigger?: () => void;
 }
 
 export default function GlassNavbar({ onOpenAbout, onAdminTrigger }: GlassNavbarProps) {
-  const [active, setActive] = useState<number | null>(null);
-  const [hovered, setHovered] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const holdTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -81,10 +77,9 @@ export default function GlassNavbar({ onOpenAbout, onAdminTrigger }: GlassNavbar
         >
           <div className="pointer-events-none absolute inset-0 z-[-1] rounded-full" style={glassBlur} />
           
-          {/* Logo + Brand Name with 8s hold trigger for admin backend */}
+          {/* Logo + Brand Name with 8s hold trigger for admin backend (no single-click) */}
           <div
-            className="flex cursor-pointer items-center gap-2.5 px-3 group"
-            onClick={onOpenAbout}
+            className="flex items-center gap-2.5 px-3 group"
             onMouseDown={startHolding}
             onMouseUp={stopHolding}
             onMouseLeave={stopHolding}
@@ -124,31 +119,6 @@ export default function GlassNavbar({ onOpenAbout, onAdminTrigger }: GlassNavbar
           <div className="flex-1" />
 
           <div className="hidden items-center gap-1 sm:flex">
-            {NAV_ITEMS.map((item, i) => (
-              <motion.button
-                key={item}
-                onClick={() => {
-                  setActive(i);
-                  if (item === 'About' && onOpenAbout) onOpenAbout();
-                }}
-                onHoverStart={() => setHovered(i)}
-                onHoverEnd={() => setHovered(null)}
-                className="relative cursor-pointer whitespace-nowrap rounded-full px-5 py-2 text-sm font-medium"
-                style={{ color: active === i || hovered === i ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.6)' }}
-                whileTap={{ scale: 0.97 }}
-              >
-                {active === i && (
-                  <motion.div
-                    layoutId="glass-nav-active"
-                    className="absolute inset-0 rounded-full"
-                    style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.1)' }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                  />
-                )}
-                <span className="relative z-10">{item}</span>
-              </motion.button>
-            ))}
-
             <motion.button
               onClick={onOpenAbout}
               whileHover={{ scale: 1.04, ...ctaHoverStyle }}
@@ -157,7 +127,7 @@ export default function GlassNavbar({ onOpenAbout, onAdminTrigger }: GlassNavbar
               style={ctaStyle}
               transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              Explore Studio
+              About
             </motion.button>
           </div>
 
@@ -199,32 +169,15 @@ export default function GlassNavbar({ onOpenAbout, onAdminTrigger }: GlassNavbar
                 style={glassStyle}
               >
                 <div className="pointer-events-none absolute inset-0 z-[-1] rounded-2xl" style={glassBlur} />
-                {NAV_ITEMS.map((item, i) => (
-                  <button
-                    key={item}
-                    onClick={() => {
-                      setActive(i);
-                      setMenuOpen(false);
-                      if (item === 'About' && onOpenAbout) onOpenAbout();
-                    }}
-                    className="cursor-pointer rounded-full px-5 py-2.5 text-left text-sm font-medium transition-colors"
-                    style={{
-                      color: active === i ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.65)',
-                      background: active === i ? 'rgba(255,255,255,0.1)' : 'transparent',
-                    }}
-                  >
-                    {item}
-                  </button>
-                ))}
                 <button
                   onClick={() => {
                     setMenuOpen(false);
                     if (onOpenAbout) onOpenAbout();
                   }}
-                  className="mt-1 cursor-pointer rounded-full px-5 py-2.5 text-sm font-semibold text-white text-center"
+                  className="cursor-pointer rounded-full px-5 py-2.5 text-sm font-semibold text-white text-center"
                   style={ctaStyle}
                 >
-                  Explore Studio
+                  About
                 </button>
               </motion.div>
             </motion.div>
