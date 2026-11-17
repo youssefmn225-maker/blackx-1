@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import Ferrofluid from './components/Ferrofluid/Ferrofluid';
-import { StudioHeader } from './components/StudioHeader';
+import GlassNavbar from './components/GlassNavbar';
 import { ProjectGrid } from './components/ProjectGrid';
 import { ExpandedShardModal } from './components/ExpandedShardModal';
 import { ContactModal } from './components/ContactModal';
@@ -89,7 +89,7 @@ export default function App() {
           Deep black textured plaque with iridescent crystal logo
         */}
         <div className="w-full pointer-events-auto">
-          <StudioHeader
+          <GlassNavbar
             onOpenAbout={() => setAboutOpen(true)}
             onAdminTrigger={() => setPasswordModalOpen(true)}
           />
