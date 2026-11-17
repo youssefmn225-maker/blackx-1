@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import ElectricLogo from './ElectricLogo';
+import { BorderBeam } from './BorderBeam';
 
 interface GlassNavbarProps {
   onOpenAbout?: () => void;
@@ -72,10 +73,11 @@ export default function GlassNavbar({ onOpenAbout, onAdminTrigger }: GlassNavbar
           initial={{ y: -40 }}
           animate={{ y: 0 }}
           transition={{ type: 'spring', stiffness: 200, damping: 24 }}
-          className="relative isolate flex w-full items-center gap-1 rounded-full px-3 py-2"
+          className="relative isolate flex w-full items-center gap-1 rounded-full px-3 py-2 overflow-hidden"
           style={glassStyle}
         >
           <div className="pointer-events-none absolute inset-0 z-[-1] rounded-full" style={glassBlur} />
+          <BorderBeam size={100} duration={5} colorFrom="#a855f7" colorTo="#3b82f6" borderWidth={1.5} />
           
           {/* Logo + Brand Name with 8s hold trigger for admin backend (no single-click) */}
           <div
