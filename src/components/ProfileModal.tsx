@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { User, Settings, LogOut, Users, CreditCard, X } from 'lucide-react';
+import { User, Settings, X, ChevronsUpDown } from 'lucide-react';
+import { SocialGlassCards } from './SocialGlassCards';
+import FluxLines from './FluxLines';
 
 const USER = {
   name: 'BLACK-X Admin',
@@ -10,32 +12,19 @@ const USER = {
   avatar: 'https://ik.imagekit.io/aitoolkit/Miscellaneous/Avatars/Silhouette%20Profile%20Against%20Gradient%20Background%201.webp',
 };
 
-const MENU_GROUPS = [
-  {
-    label: 'Account',
-    items: [
-      { icon: User, label: 'Profile', color: '#3A86FF' },
-      { icon: Settings, label: 'Settings', color: '#B388FF' },
-    ],
-  },
-  {
-    label: 'Workspace',
-    items: [
-      { icon: Users, label: 'Team', color: '#06D6A0' },
-      { icon: CreditCard, label: 'Billing', color: '#FFBE0B' },
-    ],
-  },
-];
-
-const glassPanel = {
-  background: 'rgba(255, 255, 255, 0.08)',
-  border: '1px solid rgba(255, 255, 255, 0.12)',
-  boxShadow: '0 8px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.1)',
+const pageBackground = {
+  background: '#1A1A19',
 };
 
 const glassPanelBlur = {
   backdropFilter: 'blur(24px) saturate(1.8)',
   WebkitBackdropFilter: 'blur(24px) saturate(1.8)',
+};
+
+const dropdownGlass = {
+  background: 'rgba(255, 255, 255, 0.08)',
+  border: '1px solid rgba(255, 255, 255, 0.12)',
+  boxShadow: '0 12px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.1)',
 };
 
 interface ProfileModalProps {
@@ -45,123 +34,166 @@ interface ProfileModalProps {
 }
 
 export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose, onOpenAdmin }) => {
-  if (!isOpen) return null;
+  const [menuOpen, setMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  let itemIndex = 0;
+  useEffect(() => {
+    if (!isOpen) {
+      setMenuOpen(false);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [menuOpen]);
+
+  if (!isOpen) return null;
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-xl bg-black/80">
-        {/* Backdrop */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={onClose}
-          className="fixed inset-0 bg-black/60 cursor-pointer"
-        />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="fixed inset-0 z-50 w-full h-full overflow-y-auto flex flex-col text-right"
+        style={{ ...pageBackground, fontFamily: "'Cairo', sans-serif" }}
+      >
+        {/* Interactive FluxLines Background */}
+        <div className="fixed inset-0 pointer-events-none z-0">
+          <FluxLines
+            colors={['#94a3b8', '#ffffff', '#94a3b8']}
+            glow={2}
+            rimWidth={0.2}
+            lineWidth={1}
+            flowDirection="down"
+            mouseInteraction
+            clickSwirl
+            speed={0.5}
+            scale={1.6}
+            turbulence={1}
+            fluidity={0.1}
+            sharpness={2.5}
+            shimmer={1.5}
+            mouseStrength={1}
+            mouseRadius={0.35}
+            intro
+            lightMode={false}
+          />
+        </div>
 
-        {/* Modal Content */}
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0, y: 20 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.9, opacity: 0, y: 20 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 26 }}
-          className="relative z-10 w-full max-w-md rounded-3xl p-6 text-right overflow-hidden"
-          style={{ ...glassPanel, ...glassPanelBlur }}
-        >
-          {/* Close Button */}
-          <button
-            onClick={onClose}
-            className="absolute top-4 left-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
-          >
-            <X className="w-5 h-5" />
-          </button>
+        {/* Full-Page Container */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 py-6 flex flex-col flex-1">
+          {/* Header */}
+          <div className="flex items-center justify-between pb-5 mb-6 border-b border-white/10">
+            <button
+              onClick={onClose}
+              className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer shadow-md"
+              title="إغلاق"
+            >
+              <X size={18} />
+            </button>
 
-          {/* User Info Header inside modal */}
-          <div className="flex items-center gap-4 pb-6 mb-6 border-b border-white/10">
-            <img
-              src={USER.avatar}
-              alt={USER.name}
-              className="h-14 w-14 rounded-full object-cover border-2 border-purple-500/50 shadow-lg"
-            />
-            <div>
-              <h3 className="text-lg font-black text-white">{USER.name}</h3>
-              <p className="text-xs text-white/60">{USER.email}</p>
-            </div>
-          </div>
+            {/* Clickable User Trigger + Dropdown */}
+            <div ref={dropdownRef} className="relative">
+              <motion.button
+                type="button"
+                onClick={() => setMenuOpen((v) => !v)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center gap-3.5 text-right rounded-2xl px-2.5 py-1.5 -m-1.5 hover:bg-white/[0.06] transition-colors cursor-pointer"
+              >
+                <ChevronsUpDown size={15} className="text-white/40 shrink-0" />
+                <div>
+                  <h3 className="text-base sm:text-lg font-black text-white tracking-wide">{USER.name}</h3>
+                  <p className="text-xs text-white/50">{USER.email}</p>
+                </div>
+                <img
+                  src={USER.avatar}
+                  alt={USER.name}
+                  className="h-12 w-12 rounded-full object-cover border-2 border-purple-500/50 shadow-md"
+                />
+              </motion.button>
 
-          <div className="space-y-4">
-            {MENU_GROUPS.map((group) => (
-              <div key={group.label} className="mb-2">
-                <p className="mb-1.5 px-2 text-[10px] font-semibold uppercase tracking-widest text-white/40">
-                  {group.label}
-                </p>
-                {group.items.map((item) => {
-                  const Icon = item.icon;
-                  const idx = itemIndex++;
-                  return (
-                    <motion.div
-                      key={item.label}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.05 * idx }}
-                      className="flex w-full items-center gap-3 rounded-xl px-4 py-3 mb-1.5 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-all cursor-pointer"
-                      onClick={() => {
-                        if (item.label === 'Settings' && onOpenAdmin) {
-                          onClose();
-                          onOpenAdmin();
-                        }
-                      }}
+              {/* Dropdown Menu (Hidden by default until user clicks BLACK-X Admin) */}
+              <AnimatePresence>
+                {menuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: -8, filter: 'blur(4px)' }}
+                    animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, scale: 0.95, y: -8, filter: 'blur(4px)' }}
+                    transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+                    className="absolute right-0 top-full mt-2 w-60 rounded-2xl p-2 z-30"
+                    style={{ ...dropdownGlass, ...glassPanelBlur, transformOrigin: 'top right' }}
+                  >
+                    <motion.button
+                      type="button"
+                      whileHover={{ x: -3 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => setMenuOpen(false)}
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-white/[0.08] transition-colors cursor-pointer text-right"
                     >
                       <div
                         className="flex shrink-0 items-center justify-center rounded-xl"
                         style={{
-                          width: 36,
-                          height: 36,
-                          background: `${item.color}20`,
-                          border: `1px solid ${item.color}40`,
+                          width: 34,
+                          height: 34,
+                          background: 'rgba(58, 134, 255, 0.16)',
+                          border: '1px solid rgba(58, 134, 255, 0.35)',
                         }}
                       >
-                        <Icon size={18} style={{ color: item.color }} />
+                        <User size={16} style={{ color: '#3A86FF' }} />
                       </div>
-                      <span className="text-sm font-semibold text-white/90">
-                        {item.label}
-                      </span>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            ))}
+                      <span className="text-sm font-medium text-white/90">Profile</span>
+                    </motion.button>
 
-            <div className="my-3 h-[1px] bg-white/10" />
-
-            {/* Log Out */}
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-              className="flex w-full items-center gap-3 rounded-xl px-4 py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 transition-all cursor-pointer"
-              onClick={onClose}
-            >
-              <div
-                className="flex shrink-0 items-center justify-center rounded-xl"
-                style={{
-                  width: 36,
-                  height: 36,
-                  background: '#FF5A5A25',
-                  border: '1px solid #FF5A5A40',
-                }}
-              >
-                <LogOut size={18} style={{ color: '#FF5A5A' }} />
-              </div>
-              <span className="text-sm font-semibold text-red-400">
-                Log Out
-              </span>
-            </motion.div>
+                    <motion.button
+                      type="button"
+                      whileHover={{ x: -3 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => {
+                        setMenuOpen(false);
+                        onClose();
+                        if (onOpenAdmin) onOpenAdmin();
+                      }}
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 mt-1 hover:bg-white/[0.08] transition-colors cursor-pointer text-right"
+                    >
+                      <div
+                        className="flex shrink-0 items-center justify-center rounded-xl"
+                        style={{
+                          width: 34,
+                          height: 34,
+                          background: 'rgba(179, 136, 255, 0.16)',
+                          border: '1px solid rgba(179, 136, 255, 0.35)',
+                        }}
+                      >
+                        <Settings size={16} style={{ color: '#B388FF' }} />
+                      </div>
+                      <span className="text-sm font-medium text-white/90">Settings</span>
+                    </motion.button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
-        </motion.div>
-      </div>
+
+          {/* Social Media Glass Cards Section */}
+          <div className="flex-1 flex items-center justify-center">
+            <SocialGlassCards />
+          </div>
+        </div>
+      </motion.div>
     </AnimatePresence>
   );
 };
