@@ -8,10 +8,11 @@ import { BorderBeam } from './BorderBeam';
 
 interface GlassNavbarProps {
   onOpenAbout?: () => void;
+  onOpenProfile?: () => void;
   onAdminTrigger?: () => void;
 }
 
-export default function GlassNavbar({ onOpenAbout, onAdminTrigger }: GlassNavbarProps) {
+export default function GlassNavbar({ onOpenAbout, onOpenProfile, onAdminTrigger }: GlassNavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const holdTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -132,7 +133,7 @@ export default function GlassNavbar({ onOpenAbout, onAdminTrigger }: GlassNavbar
               About
             </motion.button>
             <motion.button
-              onClick={() => {}}
+              onClick={onOpenProfile}
               whileHover={{ scale: 1.04, ...ctaHoverStyle }}
               whileTap={{ scale: 0.96 }}
               className="cursor-pointer whitespace-nowrap rounded-full px-5 py-2 text-sm font-semibold text-white"
