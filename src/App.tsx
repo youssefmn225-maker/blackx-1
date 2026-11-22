@@ -9,7 +9,6 @@ import GlassNavbar from './components/GlassNavbar';
 import { ProjectGrid } from './components/ProjectGrid';
 import { ExpandedShardModal } from './components/ExpandedShardModal';
 import { ContactModal } from './components/ContactModal';
-import { AboutStudioModal } from './components/AboutStudioModal';
 import { PasswordPromptModal } from './backend/PasswordPromptModal';
 import { BackendAdminModal } from './backend/BackendAdminModal';
 import { getStoredProjects } from './backend/projectStorage';
@@ -24,7 +23,6 @@ export default function App() {
   const [selectedProject, setSelectedProject] = useState<ProjectShard | null>(null);
   const [transitionData, setTransitionData] = useState<TransitionOriginData | null>(null);
   const [contactOpen, setContactOpen] = useState<boolean>(false);
-  const [aboutOpen, setAboutOpen] = useState<boolean>(false);
   const [contactProjectTitle, setContactProjectTitle] = useState<string | undefined>(undefined);
 
   // Admin Backend Modals States
@@ -90,7 +88,7 @@ export default function App() {
         */}
         <div className="w-full pointer-events-auto">
           <GlassNavbar
-            onOpenAbout={() => setAboutOpen(true)}
+            onOpenAbout={() => {}}
             onAdminTrigger={() => setPasswordModalOpen(true)}
           />
         </div>
@@ -103,7 +101,7 @@ export default function App() {
           <ProjectGrid
             projects={projects}
             onSelectProject={handleSelectProject}
-            onOpenContact={() => setAboutOpen(true)}
+            onOpenContact={() => {}}
           />
         </main>
 
@@ -125,13 +123,6 @@ export default function App() {
         onClose={() => setSelectedProject(null)}
         onOpenContact={(title) => handleOpenContact(title)}
         clickPoint={transitionData?.clickPoint}
-      />
-
-      {/* Studio About & Contact Channels Modal (واتساب، إنستا، فيسبوك، تليجرام) */}
-      <AboutStudioModal
-        isOpen={aboutOpen}
-        onClose={() => setAboutOpen(false)}
-        onOpenDirectChat={() => handleOpenContact('مشروع جديد')}
       />
 
       {/* Direct Inquiries & Chat Modal */}
