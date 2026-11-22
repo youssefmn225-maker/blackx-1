@@ -120,16 +120,26 @@ export default function GlassNavbar({ onOpenAbout, onAdminTrigger }: GlassNavbar
 
           <div className="flex-1" />
 
-          <div className="hidden items-center gap-1 sm:flex">
+          <div className="hidden items-center gap-2 sm:flex">
             <motion.button
               onClick={onOpenAbout}
               whileHover={{ scale: 1.04, ...ctaHoverStyle }}
               whileTap={{ scale: 0.96 }}
-              className="ml-2 cursor-pointer whitespace-nowrap rounded-full px-5 py-2 text-sm font-semibold text-white"
+              className="cursor-pointer whitespace-nowrap rounded-full px-5 py-2 text-sm font-semibold text-white"
               style={ctaStyle}
               transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
             >
               About
+            </motion.button>
+            <motion.button
+              onClick={() => {}}
+              whileHover={{ scale: 1.04, ...ctaHoverStyle }}
+              whileTap={{ scale: 0.96 }}
+              className="cursor-pointer whitespace-nowrap rounded-full px-5 py-2 text-sm font-semibold text-white"
+              style={ctaStyle}
+              transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+            >
+              Profile
             </motion.button>
           </div>
 
@@ -176,10 +186,19 @@ export default function GlassNavbar({ onOpenAbout, onAdminTrigger }: GlassNavbar
                     setMenuOpen(false);
                     if (onOpenAbout) onOpenAbout();
                   }}
-                  className="cursor-pointer rounded-full px-5 py-2.5 text-sm font-semibold text-white text-center"
+                  className="cursor-pointer rounded-full px-5 py-2.5 text-sm font-semibold text-white text-center mb-1"
                   style={ctaStyle}
                 >
                   About
+                </button>
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                  }}
+                  className="cursor-pointer rounded-full px-5 py-2.5 text-sm font-semibold text-white text-center"
+                  style={ctaStyle}
+                >
+                  Profile
                 </button>
               </motion.div>
             </motion.div>
