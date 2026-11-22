@@ -135,7 +135,7 @@ export default function App() {
         defaultProjectTitle={contactProjectTitle}
       />
 
-      {/* Full Profile Menu Modal */}
+      {/* Profile Modal */}
       <ProfileModal
         isOpen={profileOpen}
         onClose={() => setProfileOpen(false)}
