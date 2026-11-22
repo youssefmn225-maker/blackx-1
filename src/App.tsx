@@ -9,6 +9,7 @@ import GlassNavbar from './components/GlassNavbar';
 import { ProjectGrid } from './components/ProjectGrid';
 import { ExpandedShardModal } from './components/ExpandedShardModal';
 import { ContactModal } from './components/ContactModal';
+import { ProfileModal } from './components/ProfileModal';
 import { PasswordPromptModal } from './backend/PasswordPromptModal';
 import { BackendAdminModal } from './backend/BackendAdminModal';
 import { getStoredProjects } from './backend/projectStorage';
@@ -23,6 +24,7 @@ export default function App() {
   const [selectedProject, setSelectedProject] = useState<ProjectShard | null>(null);
   const [transitionData, setTransitionData] = useState<TransitionOriginData | null>(null);
   const [contactOpen, setContactOpen] = useState<boolean>(false);
+  const [profileOpen, setProfileOpen] = useState<boolean>(false);
   const [contactProjectTitle, setContactProjectTitle] = useState<string | undefined>(undefined);
 
   // Admin Backend Modals States
@@ -89,6 +91,7 @@ export default function App() {
         <div className="w-full pointer-events-auto">
           <GlassNavbar
             onOpenAbout={() => {}}
+            onOpenProfile={() => setProfileOpen(true)}
             onAdminTrigger={() => setPasswordModalOpen(true)}
           />
         </div>
@@ -130,6 +133,13 @@ export default function App() {
         isOpen={contactOpen}
         onClose={() => setContactOpen(false)}
         defaultProjectTitle={contactProjectTitle}
+      />
+
+      {/* Full Profile Menu Modal */}
+      <ProfileModal
+        isOpen={profileOpen}
+        onClose={() => setProfileOpen(false)}
+        onOpenAdmin={() => setPasswordModalOpen(true)}
       />
 
       {/* Password Prompt Modal for Backend Access */}
