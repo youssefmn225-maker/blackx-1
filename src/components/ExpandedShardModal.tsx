@@ -129,37 +129,26 @@ export const ExpandedShardModal: React.FC<ExpandedShardModalProps> = ({
         initial: { opacity: 0 },
         animate: { opacity: 1 },
         exit: { opacity: 0 },
-        transition: { duration: 0.3, ease: 'easeOut' },
+        transition: { duration: 0.3, ease: 'easeOut' as const },
       };
     }
 
-    const maxRadius = Math.ceil(
-      typeof window !== 'undefined'
-        ? Math.hypot(
-            Math.max(clickPoint.x, window.innerWidth - clickPoint.x),
-            Math.max(clickPoint.y, window.innerHeight - clickPoint.y)
-          ) * 1.15
-        : 1800
-    );
-
     return {
       initial: {
-        clipPath: `circle(0px at ${clickPoint.x}px ${clickPoint.y}px)`,
-        WebkitClipPath: `circle(0px at ${clickPoint.x}px ${clickPoint.y}px)`,
-        opacity: 0.85,
+        opacity: 0,
+        scale: 0.96,
       },
       animate: {
-        clipPath: `circle(${maxRadius}px at ${clickPoint.x}px ${clickPoint.y}px)`,
-        WebkitClipPath: `circle(${maxRadius}px at ${clickPoint.x}px ${clickPoint.y}px)`,
         opacity: 1,
+        scale: 1,
       },
       exit: {
         opacity: 0,
-        transition: { duration: 0.3, ease: 'easeIn' },
+        transition: { duration: 0.25, ease: 'easeIn' as const },
       },
       transition: {
-        duration: 2.0, // Matches shard transition perfectly
-        ease: [0.25, 1, 0.35, 1], // Perfect cubic-bezier
+        duration: 0.45,
+        ease: [0.16, 1, 0.3, 1] as const,
       },
     };
   }, [clickPoint]);
@@ -174,7 +163,7 @@ export const ExpandedShardModal: React.FC<ExpandedShardModalProps> = ({
     <AnimatePresence>
       <motion.div
         {...animationProps}
-        className="fixed inset-0 z-50 overflow-y-auto selection:bg-purple-500/40 selection:text-white"
+        className="fixed inset-0 z-50 overflow-y-auto selection:bg-purple-500/40 selection:text-white will-change-[transform,opacity]"
         id="project-details-viewport"
       >
         {/* 
@@ -190,12 +179,12 @@ export const ExpandedShardModal: React.FC<ExpandedShardModalProps> = ({
           }}
         />
 
-        {/* Dynamic energetic cosmic nebula swirls and starlight aura */}
+        {/* Soft pre-diffused nebula glow (pure radial gradients — zero blur-3xl GPU stall) */}
         <div
-          className="fixed inset-0 pointer-events-none opacity-70 blur-3xl"
+          className="fixed inset-0 pointer-events-none opacity-80"
           style={{
             background:
-              'radial-gradient(circle at 70% 20%, rgba(232, 121, 249, 0.3) 0%, transparent 60%), radial-gradient(circle at 20% 80%, rgba(157, 0, 255, 0.35) 0%, transparent 60%)',
+              'radial-gradient(circle at 70% 20%, rgba(232, 121, 249, 0.28) 0%, transparent 55%), radial-gradient(circle at 20% 80%, rgba(157, 0, 255, 0.32) 0%, transparent 55%)',
           }}
         />
 
@@ -331,9 +320,9 @@ export const ExpandedShardModal: React.FC<ExpandedShardModalProps> = ({
                 </div>
 
                 {/* Comprehensive Written Overview in Clean Glass Container */}
-                <div className="relative w-full p-5 sm:p-6 rounded-2xl bg-[#090216]/85 border border-purple-500/30 backdrop-blur-md shadow-[0_15px_40px_rgba(0,0,0,0.6)] mb-6">
+                <div className="relative w-full p-5 sm:p-6 rounded-2xl bg-[#090216]/90 border border-purple-500/30 shadow-[0_15px_40px_rgba(0,0,0,0.6)] mb-6">
                   {/* Subtle corner light */}
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/12 rounded-full pointer-events-none" />
 
                   <h2
                     className="text-base sm:text-lg font-bold text-purple-200 mb-2.5 flex items-center gap-2"
