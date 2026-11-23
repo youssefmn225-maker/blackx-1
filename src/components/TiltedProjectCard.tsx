@@ -132,7 +132,8 @@ export const TiltedProjectCard: React.FC<TiltedProjectCardProps> = ({
         imageWidth="100%"
         rotateAmplitude={12}
         scaleOnHover={1.05}
-        glare={0.4}
+        smoothness={0.75}
+        glare={0.35}
         glareColor="#a855f7"
         shadow={0.5}
         radius={18}
@@ -143,13 +144,13 @@ export const TiltedProjectCard: React.FC<TiltedProjectCardProps> = ({
         {/* Layer 1: Dark Obsidian Vignette Overlay for Crisp Contrast */}
         <TiltedCardLayer depth={12}>
           <div className="absolute inset-0 bg-gradient-to-t from-[#020005]/95 via-[#020005]/50 to-transparent pointer-events-none" />
-          <div className="absolute inset-0 bg-purple-950/20 mix-blend-color pointer-events-none" />
+          <div className="absolute inset-0 bg-purple-950/20 pointer-events-none" />
         </TiltedCardLayer>
 
         {/* Layer 2: 3D Floating Header Icon & Status */}
         <TiltedCardLayer depth={30}>
           <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
-            <div className="w-8 h-8 rounded-xl bg-black/70 backdrop-blur-md border border-purple-500/40 flex items-center justify-center shadow-[0_0_12px_rgba(168,85,247,0.4)]">
+            <div className="w-8 h-8 rounded-xl bg-black/80 border border-purple-500/40 flex items-center justify-center shadow-[0_0_12px_rgba(168,85,247,0.4)]">
               {renderIcon()}
             </div>
 
