@@ -595,13 +595,19 @@ export const TiltedCard = ({
     >
       <div
         ref={shadowRef}
-        className="pointer-events-none absolute inset-0 m-auto max-h-full max-w-full bg-[var(--tc-shadow-color,rgba(0,0,0,0.55))] opacity-0 blur-[20px] will-change-[transform,opacity]"
+        className="pointer-events-none absolute -inset-4 m-auto max-h-full max-w-full opacity-0 will-change-[transform,opacity]"
         aria-hidden="true"
-        style={{ width: toLength(imageWidth), height: toLength(imageHeight), borderRadius: corner }}
+        style={{
+          width: toLength(imageWidth),
+          height: toLength(imageHeight),
+          borderRadius: corner,
+          background:
+            'radial-gradient(closest-side, var(--tc-shadow-color, rgba(0, 0, 0, 0.72)) 0%, rgba(0, 0, 0, 0.34) 58%, transparent 100%)',
+        }}
       />
       <div
         ref={bodyRef}
-        className="relative max-h-full max-w-full [transform-style:preserve-3d]"
+        className="relative max-h-full max-w-full [transform-style:preserve-3d] will-change-transform"
         style={
           {
             width: toLength(imageWidth),
