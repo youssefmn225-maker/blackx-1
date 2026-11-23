@@ -19,8 +19,8 @@ export const CinematicShatterTransition: React.FC<CinematicShatterTransitionProp
   transitionData,
   onComplete,
 }) => {
-  // Cinematic, slow-motion duration (2.0s) for a premium, buttery-smooth transition
-  const DURATION = 2.0;
+  // Crisp, buttery-smooth shatter duration (1.1s)
+  const DURATION = 1.1;
 
   useEffect(() => {
     if (!transitionData) return;
@@ -77,15 +77,15 @@ export const CinematicShatterTransition: React.FC<CinematicShatterTransitionProp
   const py = clickPoint.y;
 
   return (
-    <div className="fixed inset-0 z-50 pointer-events-none overflow-hidden select-none">
+    <div className="fixed inset-0 z-[60] pointer-events-none overflow-hidden select-none">
       {/* 
         1. Ambient Deep Dimming (Smooth GPU Opacity)
       */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: DURATION * 0.6, ease: 'easeOut' }}
-        className="absolute inset-0 bg-[#020005]/92 backdrop-blur-[2px] pointer-events-none"
+        transition={{ duration: DURATION * 0.45, ease: 'easeOut' }}
+        className="absolute inset-0 bg-[#020005]/92 pointer-events-none"
         style={{ willChange: 'opacity' }}
       />
 
@@ -188,7 +188,7 @@ export const CinematicShatterTransition: React.FC<CinematicShatterTransitionProp
                 <div className="absolute inset-0 bg-gradient-to-b from-[#180d2c] via-[#090312] to-[#040108]" />
               </div>
 
-              {/* Crisp Crystal Neon Edges (Lightweight pure vector SVG - Zero Filter Lag) */}
+              {/* Crisp Crystal Neon Edges (Dual stroke glow - Zero CSS Filter Lag) */}
               <svg
                 className="absolute inset-0 w-full h-full overflow-visible"
                 viewBox={`0 0 ${rect.width} ${rect.height}`}
@@ -197,10 +197,17 @@ export const CinematicShatterTransition: React.FC<CinematicShatterTransitionProp
                 <polygon
                   points={shard.points.map((p) => `${p.x},${p.y}`).join(' ')}
                   fill="none"
-                  stroke={shard.isEpicenter ? '#f5d0fe' : '#c084fc'}
-                  strokeWidth={shard.isEpicenter ? 2.4 : 1.6}
+                  stroke={shard.isEpicenter ? '#e879f9' : '#a855f7'}
+                  strokeOpacity={0.35}
+                  strokeWidth={shard.isEpicenter ? 5.5 : 4}
                   strokeLinejoin="round"
-                  className="drop-shadow-[0_0_8px_rgba(192,132,252,0.8)]"
+                />
+                <polygon
+                  points={shard.points.map((p) => `${p.x},${p.y}`).join(' ')}
+                  fill="none"
+                  stroke={shard.isEpicenter ? '#f5d0fe' : '#c084fc'}
+                  strokeWidth={shard.isEpicenter ? 2.2 : 1.5}
+                  strokeLinejoin="round"
                 />
               </svg>
             </motion.div>
