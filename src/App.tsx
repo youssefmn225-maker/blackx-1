@@ -79,6 +79,8 @@ export default function App() {
           clickPulse
           variation={6}
           flowDirection="up"
+          dpr={1.25}
+          paused={profileOpen || Boolean(selectedProject) || adminModalOpen || contactOpen || passwordModalOpen}
         />
       </div>
 
