@@ -846,7 +846,10 @@ const Ferrofluid = ({
 
     const frame = (now: number) => {
       raf = 0;
-      if (!visible || document.hidden) return;
+      if (!visible || document.hidden || settingsRef.current.paused) {
+        last = 0;
+        return;
+      }
       const dt = last ? clamp((now - last) / 1000, 0.0005, 0.05) : 1 / 60;
       last = now;
       step(dt);
@@ -855,7 +858,9 @@ const Ferrofluid = ({
     };
 
     const wake = () => {
-      if (!raf && visible && !document.hidden) raf = requestAnimationFrame(frame);
+      if (!raf && visible && !document.hidden && !settingsRef.current.paused) {
+        raf = requestAnimationFrame(frame);
+      }
     };
 
     const resize = () => {
