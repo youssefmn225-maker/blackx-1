@@ -363,16 +363,17 @@ function OrbitNode({
         marginTop: -iconBoxSize / 2,
         x,
         y,
+        willChange: 'transform',
         background: isHovered ? 'rgba(255, 255, 255, 0.14)' : 'rgba(255, 255, 255, 0.08)',
-        backdropFilter: 'blur(20px) saturate(1.8)',
-        WebkitBackdropFilter: 'blur(20px) saturate(1.8)',
+        backdropFilter: 'blur(12px) saturate(1.5)',
+        WebkitBackdropFilter: 'blur(12px) saturate(1.5)',
         border: isHovered
           ? `1.5px solid ${color}cc`
           : '1px solid rgba(255, 255, 255, 0.16)',
         boxShadow: isHovered
           ? `0 0 28px ${color}80, 0 8px 24px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.25)`
           : '0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.14)',
-        transition: 'box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease',
+        transition: 'box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease',
       }}
     >
       <div className="pointer-events-none flex items-center justify-center">
@@ -382,12 +383,20 @@ function OrbitNode({
   );
 }
 
-export const SocialGlassCards: React.FC = () => {
+interface SocialGlassCardsProps {
+  onExpandedChange?: (expanded: boolean) => void;
+}
+
+export const SocialGlassCards: React.FC<SocialGlassCardsProps> = ({ onExpandedChange }) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [selectedCard, setSelectedCard] = useState<SocialCardConfig | null>(null);
   const [viewportWidth, setViewportWidth] = useState<number>(
     typeof window !== 'undefined' ? window.innerWidth : 1024
   );
+
+  useEffect(() => {
+    onExpandedChange?.(Boolean(selectedCard));
+  }, [selectedCard, onExpandedChange]);
 
   const orbitAngle = useMotionValue(-90);
   const speedRef = useRef<number>(16); // degrees per second
